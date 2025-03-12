@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Project</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>Welcome to My Project</h1>
+    <p>This is a simple website for CIS 1440 Project #3.</p>
+
+    <!-- Image with rollover effect -->
+    <img src="images/normal-image.jpg" 
+         onmouseover="this.src='images/hover-image.jpg';" 
+         onmouseout="this.src='images/normal-image.jpg';" 
+         alt="Example Image" />
+
+    <!-- Button to load data -->
+    <button onclick="fetchData()">Load Data</button>
+    
+    <div id="data-container"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
