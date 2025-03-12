@@ -3,25 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Project</title>
+    <title>World Countries</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 20px;
+            padding: 0;
+            color: #333;
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+
+        .country-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .country-card {
+            width: 250px;
+            padding: 15px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.2s ease;
+        }
+
+        .country-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .country-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
 
-    <h1>Welcome to My Project</h1>
-    <p>This is a simple website for CIS 1440 Project #3.</p>
+    <h1>Explore World Countries</h1>
+    <button onclick="fetchCountries()">Load Countries</button>
 
-    <!-- Image with rollover effect -->
-    <img src="images/normal-image.jpg" 
-         onmouseover="this.src='images/hover-image.jpg';" 
-         onmouseout="this.src='images/normal-image.jpg';" 
-         alt="Example Image" />
+    <div class="country-container" id="country-container"></div>
 
-    <!-- Button to load data -->
-    <button onclick="fetchData()">Load Data</button>
-    
-    <div id="data-container"></div>
-
-    <script src="script.js"></script>
+    <script>
+        function fetchCountries() {
+            fetch('https://restcountries.com/v3.1/all')
+                .then(response => response.json())
+                .then(data => {
+                    const container = document.getElementById('country-container');
+                    container.innerHTML = '';
+                    data.slice(0, 12).forEach(country => {
+                        const countryCard = document.createElement('div');
+                        countryCard.className = 'country-card';
+                        countryCard.innerHTML = `
+                            <img src="${country.flags.png}" alt="Flag of ${country.name.common}">
+                            <h3>${country.name.common}</h3>
+                            <p><strong>Capital:</strong> ${country.capital ? country.capital[0] : 'N/A'}</p>
+                            <p><strong>Population:</strong> ${country.population.toLocaleString()}</p>
+                            <p><strong>Region:</strong> ${country.region}</p>
+                        `;
+                        container.appendChild(countryCard);
+                    });
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        }
+    </script>
 </body>
 </html>
